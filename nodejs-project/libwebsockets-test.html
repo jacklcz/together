@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset=utf-8 />
+ <title>code share</title>
+
+
+    <link rel="stylesheet" href="/stylesheets/basicd8b0.css" type="text/css"/>
+    <script type="text/javascript" src='/javascripts/jquery-1.7.js'></script>
+    <link rel="stylesheet" href='/stylesheets/bootstrap.min.css'/>
+    <link id="css" rel="stylesheet" type="text/css" href="/stylesheets/shCoreDefault.css"/>
+    <script type="text/javascript" src="/javascripts/jquery.cookies.2.2.0.min.js"></script>
+    <script type="text/javascript" src="/javascripts/shCore.js"></script>
+    <script type="text/javascript" src="/javascripts/shBrushAll.js"></script>
+</head>
+
+<body>
+<textarea onkeyup="_send()" style="background-color:#0C1021;height:1000px;width:1500px;color: #B34112" id="code_source"></textarea>
+
+
+<script>
+var pos = 0;
+function get_appropriate_ws_url()
+{
+	var pcol;
+	var u = document.URL;
+
+	/*
+	 * We open the websocket encrypted if this page came on an
+	 * https:// url itself, otherwise unencrypted
+	 */
+
+	if (u.substring(0, 5) == "https") {
+		pcol = "wss://";
+		u = u.substr(8);
+	} else {
+		pcol = "ws://";
+		if (u.substring(0, 4) == "http")
+			u = u.substr(7);
+	}
+
+	u = u.split('/');
+
+	return pcol + u[0];
+}
+
+
+
+
+/* lws-mirror protocol */
+
+	var ws_ctor = window['MozWebSocket'] ? window['MozWebSocket'] : window['WebSocket'];
+	
+	var socket_lm = new ws_ctor(get_appropriate_ws_url(),"lcz-protocol");
+
+    var lws_error = false;
+
+	try {
+		socket_lm.onopen = function() {
+            socket_lm.send("start");
+		}
+		
+		socket_lm.onerror = function(error) {
+		  lws_error = true;
+          alert(error);
+		};
+
+		socket_lm.onmessage =function got_packet(msg) {
+			$("#code_source").val(msg.data);
+		}
+
+		socket_lm.onclose = function(){
+		  if (!lws_error) {
+  			alert('close');
+		  }
+		}
+	} catch(exception) {
+		alert('<p>Error' + exception);  
+	}
+
+
+
+function _send(){
+
+    socket_lm.send($("#code_source").val());
+
+}
+
+
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

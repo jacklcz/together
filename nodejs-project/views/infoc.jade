@@ -1,0 +1,52 @@
+doctype html
+html
+  head
+    title= title
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    link(rel='stylesheet', type='text/css', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='/stylesheets/flat-ui.css')
+    link(href='/stylesheets/demo.css', rel='stylesheet')
+    link(rel='shortcut icon', href='/images/favicon.ico')
+    script(type='text/javascript', src='/javascripts/jquery-1.6.4.js')
+    script(type='text/javascript', src='/javascripts/bootstrap.min.js')
+    script(type='text/javascript', src='/javascripts/base.js')
+
+    script.
+
+        function l_login(){
+           var uname = $('#login-name').val();
+           var pwd = $('#login-pass').val();
+           Tizi.login(uname,pwd);
+         }
+
+  body(style='background-color:#cccccc')
+    .container
+      .demo-headline
+        .row.demo-row
+          .col-md-3
+            a.btn.btn-block.btn-lg.btn-danger(href='#fakelink') &#28909;&#28857;
+          .col-md-3
+            a.btn.btn-block.btn-lg.btn-warning(href='#fakelink') &#27687;&#21543;
+          .col-md-3
+            a.btn.btn-block.btn-lg.btn-primary(href='#fakelink') &#25506;&#32034;
+          .col-md-3
+            a.btn.btn-block.btn-lg.btn-danger(href='#fakelink') FM
+        // /row
+        .login
+          .login-screen
+            .login-icon
+              img(src='/images/icon.png', alt='Welcome to Mail App')
+              h4
+                | &#24515;&#28789;&#36830;&#25509; &amp;
+                small &#36830;&#25509;&#20320;&#25105;
+            .login-form
+              .form-group
+                input#login-name.form-control.login-field(type='text', value='', placeholder='Enter your name')
+                label.login-field-icon.fui-user(for='login-name')
+              .form-group
+                input#login-pass.form-control.login-field(type='password', value='', placeholder='Password')
+                label.login-field-icon.fui-lock(for='login-pass')
+              a.btn.btn-primary.btn-lg.btn-block(onclick='l_login()') Login
+              a.login-link(href='#') Lost your password&quest;
+
+
